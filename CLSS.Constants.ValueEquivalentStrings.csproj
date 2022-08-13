@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard1.0;netstandard2.0</TargetFrameworks>
@@ -10,6 +10,8 @@
     <RepositoryUrl>https://github.com/tonygiang/CLSS.Constants.ValueEquivalentStrings</RepositoryUrl>
     <PackageTags>CLSS</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version>1.1</Version>
+    <PackageReleaseNotes>- Automatically use the latest CLSS dependency version.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CLSS.Types.MemoizedFunc" Version="1.1.0" />
+    <PackageReference Include="CLSS.Types.MemoizedFunc" Version="*" />
   </ItemGroup>
 
 </Project>
