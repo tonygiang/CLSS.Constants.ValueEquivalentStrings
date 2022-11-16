@@ -6,7 +6,7 @@ Among all value types in C#, most of them have equivalent default string represe
 
 Since `string` is a reference type, each `ToString` invocation always creates an allocation, but since strings are also immutable, there is no real benefit from 2 strings identical in content allocated on 2 different places on the heap. Such a scenario only creates memory inefficiency as well as garbage for the GC to clean up.
 
-```
+```csharp
 string Method1(int value) { return value.ToString(); }
 string Method2(int value) { return value.ToString(); }
 
@@ -19,7 +19,7 @@ var res2 = Method2(4);
 
 This package provides the `ValueEquivalentStrings<T>` class that contains a static, global cache of strings equivalent to value types. The first time it converts a value to a default string (meaning a `ToString` conversion with no additional format or format provider), it caches that string so that all subsequent conversions simply return that existing string.
 
-```
+```csharp
 int num1 = 4, num2 = 4;
 string str1 = ValueEquivalentStrings<int>.Get(num1);
 string str2 = ValueEquivalentStrings<int>.Get(num2); // no string allocation for this call
@@ -27,7 +27,7 @@ string str2 = ValueEquivalentStrings<int>.Get(num2); // no string allocation for
 
 `ValueEquivalentStrings` accepts all value types in its type parameter, including custom struct types. If you want to cache string equivalences to custom struct types, make sure to align their `ToString` and `Equals` override implementations.
 
-```
+```csharp
 using CLSS;
 
 public struct City
@@ -54,7 +54,7 @@ var str2 = ValueEquivalentStrings<City>.Get(paris2); // returns "(Name = Paris, 
 
 At the heart of `ValueEquivalentStrings<T>` is a [`MemoizedFunc`](https://www.nuget.org/packages/CLSS.Types.MemoizedFunc) - another CLSS type and the only dependency of this package. This memoizer is also publicly exposed should you need to manipulate it directly for some reason.
 
-```
+```csharp
 // Invoking the memoizer directly does the same thing as Get, but longer syntax.
 char charW = ValueEquivalentStrings<char>.Memoizer.Invoke('W');
 // Clears the cache to free up some memory
@@ -63,7 +63,7 @@ ValueEquivalentStrings<int>.Memoizer.MemoizedResults.Clear();
 
 This package also comes with the `ToCachedString` extension method for all value types as an alternative shorter, more functional-style syntax to `Get`. The same caution for custom struct types applies to this syntax.
 
-```
+```csharp
 // String.Join does not accept char as a separator type in pre-2.1 versions of .NET Standard
 var commaSeparatedLine = String.Join(','.ToCachedString(), rowValues);
 ```
